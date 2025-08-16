@@ -1,0 +1,210 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* Muhammad Asad Haye Brand Colors */
+  --dark-navy: #1D2731;
+  --coral-accent: #E63946;
+  --soft-white: #F8F9FA;
+  --cool-grey: #6C757D;
+  
+  --background: var(--soft-white);
+  --foreground: var(--dark-navy);
+  --card: var(--soft-white);
+  --card-foreground: var(--dark-navy);
+  --popover: var(--soft-white);
+  --popover-foreground: var(--dark-navy);
+  --primary: var(--coral-accent);
+  --primary-foreground: var(--soft-white);
+  --secondary: var(--cool-grey);
+  --secondary-foreground: var(--soft-white);
+  --muted: #E9ECEF;
+  --muted-foreground: var(--cool-grey);
+  --accent: var(--coral-accent);
+  --accent-foreground: var(--soft-white);
+  --destructive: var(--coral-accent);
+  --border: #DEE2E6;
+  --input: #DEE2E6;
+  --ring: var(--coral-accent);
+  --chart-1: var(--coral-accent);
+  --chart-2: var(--dark-navy);
+  --chart-3: var(--cool-grey);
+  --chart-4: #ADB5BD;
+  --chart-5: #495057;
+  --sidebar: var(--soft-white);
+  --sidebar-foreground: var(--dark-navy);
+  --sidebar-primary: var(--coral-accent);
+  --sidebar-primary-foreground: var(--soft-white);
+  --sidebar-accent: var(--cool-grey);
+  --sidebar-accent-foreground: var(--soft-white);
+  --sidebar-border: #DEE2E6;
+  --sidebar-ring: var(--coral-accent);
+}
+
+.dark {
+  --background: var(--dark-navy);
+  --foreground: var(--soft-white);
+  --card: #2A3441;
+  --card-foreground: var(--soft-white);
+  --popover: #2A3441;
+  --popover-foreground: var(--soft-white);
+  --primary: var(--coral-accent);
+  --primary-foreground: var(--soft-white);
+  --secondary: #3A4651;
+  --secondary-foreground: var(--soft-white);
+  --muted: #3A4651;
+  --muted-foreground: #ADB5BD;
+  --accent: var(--coral-accent);
+  --accent-foreground: var(--soft-white);
+  --destructive: var(--coral-accent);
+  --border: rgba(248, 249, 250, 0.1);
+  --input: rgba(248, 249, 250, 0.15);
+  --ring: var(--coral-accent);
+  --chart-1: var(--coral-accent);
+  --chart-2: var(--cool-grey);
+  --chart-3: #ADB5BD;
+  --chart-4: #495057;
+  --chart-5: #343A40;
+  --sidebar: var(--dark-navy);
+  --sidebar-foreground: var(--soft-white);
+  --sidebar-primary: var(--coral-accent);
+  --sidebar-primary-foreground: var(--soft-white);
+  --sidebar-accent: #3A4651;
+  --sidebar-accent-foreground: var(--soft-white);
+  --sidebar-border: rgba(248, 249, 250, 0.1);
+  --sidebar-ring: var(--coral-accent);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom portfolio styles */
+.hero-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--dark-navy) 0%, var(--coral-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.skill-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dark theme adjustments */
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
