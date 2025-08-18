@@ -1,172 +1,233 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Card, CardContent } from './ui/card';
+import { useRef, useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const About = () => {
-  const sectionRef = useRef(null);
-  const statsRef = useRef(null);
-  const [stats, setStats] = useState([
-    { label: 'Projects Completed', value: 0, target: 75 },
-    { label: 'Years Experience', value: 0, target: 6 },
-    { label: 'Happy Clients', value: 0, target: 45 },
-    { label: 'Technologies Mastered', value: 0, target: 20 },
-  ]);
-
-  const skills = [
-    { name: 'React/Next.js', level: 95 },
-    { name: 'Node.js/Express', level: 90 },
-    { name: 'E-Commerce Platforms', level: 92 },
-    { name: 'AI/ML Integration', level: 85 },
-    { name: 'Digital Marketing', level: 88 },
-    { name: 'Three.js/GSAP', level: 80 },
-  ];
+  const [isVisible, setIsVisible] = useState(false);
+  const aboutRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate stats counter
-      ScrollTrigger.create({
-        trigger: statsRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          stats.forEach((stat, index) => {
-            gsap.to(stat, {
-              value: stat.target,
-              duration: 2,
-              ease: 'power2.out',
-              onUpdate: function() {
-                setStats(prevStats => {
-                  const newStats = [...prevStats];
-                  newStats[index] = { ...newStats[index], value: Math.round(this.targets()[0].value) };
-                  return newStats;
-                });
-              }
-            });
-          });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (aboutRef.current) {
+      observer.observe(aboutRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const skills = [
+    { name: 'Marketing Strategy', level: 95 },
+    { name: 'E-Commerce', level: 90 },
+    { name: 'Digital Analytics', level: 85 },
+    { name: 'AI/ML Integration', level: 80 },
+    { name: 'Three.js', level: 75 },
+    { name: 'React/Next.js', level: 70 },
+  ];
+
+  const technologies = [
+    'React', 'Next.js', 'Node.js', 'Shopify', 'WooCommerce', 'MedusaJS', 
+    'AI/ML', 'Three.js', 'Adobe Suite', 'Canva', 'HuggingFace'
+  ];
+
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1
       });
+    };
 
-      // Animate skill bars
-      gsap.fromTo(
-        '.skill-bar-fill',
-        { width: '0%' },
-        {
-          width: (index, target) => target.dataset.level + '%',
-          duration: 1.5,
-          ease: 'power2.out',
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: '.skills-container',
-            start: 'top 80%',
-          }
-        }
-      );
-
-      // Animate section elements
-      gsap.fromTo(
-        '.fade-in-up',
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-          }
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 bg-muted/50">
+    <section id="about" className="min-h-screen flex items-center justify-center relative overflow-hidden mt-16">
+      {/* Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
+        <div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl floating-element"
+          style={{
+            left: `${50 + mousePosition.x * 20}%`,
+            top: `${50 + mousePosition.y * 20}%`,
+            transform: 'translate(-50%, -50%)',
+            transition: 'all 0.3s ease-out'
+          }}
+        />
+        <div 
+          className="absolute w-64 h-64 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl floating-element"
+          style={{
+            left: `${30 - mousePosition.x * 15}%`,
+            top: `${70 - mousePosition.y * 15}%`,
+            transform: 'translate(-50%, -50%)',
+            transition: 'all 0.3s ease-out',
+            animationDelay: '2s'
+          }}
+        />
+      </div>
+
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16 fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">About Me</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              I'm a passionate full-stack developer and e-commerce strategist who specializes in building 
-              scalable digital solutions that drive business growth and enhance user experiences.
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 heading-primary">
+              About Me
+            </h2>
+            <p className="text-xl body-text-secondary max-w-3xl mx-auto">
+              Passionate marketer and e-commerce strategist with expertise in AI integration and modern web technologies.
             </p>
           </div>
 
-          {/* Stats */}
-          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            {stats.map((stat, index) => (
-              <Card key={index} className="text-center fade-in-up glass-effect">
-                <CardContent className="p-6">
-                  <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-                    {stat.value}+
-                  </div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            {/* Left Column - Story */}
+            <div 
+              ref={aboutRef}
+              className={`space-y-6 transition-all duration-1000 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+            >
+              <Card className="glass-effect">
+                <CardHeader>
+                  <CardTitle className="text-2xl heading-secondary">My Journey</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="body-text-secondary leading-relaxed">
+                    I'm Muhammad Asad Haye, a results-driven marketing professional with over 8 years of experience 
+                    in digital marketing and e-commerce strategy. My passion lies in leveraging cutting-edge 
+                    technologies to create innovative marketing solutions.
+                  </p>
+                  <p className="body-text-secondary leading-relaxed">
+                    From traditional marketing campaigns to AI-powered automation, I've helped businesses 
+                    across various industries achieve remarkable growth and market presence.
+                  </p>
+                  <p className="body-text-secondary leading-relaxed">
+                    When I'm not optimizing conversion rates or analyzing market trends, you'll find me 
+                    exploring the latest in AI technology, building interactive web experiences, or 
+                    mentoring the next generation of digital marketers.
+                  </p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* About Text */}
-            <div className="fade-in-up">
-              <h3 className="text-2xl font-bold mb-6">My Journey</h3>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Started as a curious developer with a passion for creating digital solutions that make a difference. 
-                  Over the years, I've specialized in full-stack development, e-commerce strategy, and AI integration, 
-                  helping businesses transform their digital presence.
-                </p>
-                <p>
-                  My expertise spans from building robust web applications with React and Node.js to developing 
-                  comprehensive e-commerce solutions using platforms like Shopify, WooCommerce, and MedusaJS. 
-                  I also integrate AI tools to enhance user experiences and automate business processes.
-                </p>
-                <p>
-                  When I'm not coding, you'll find me exploring the latest AI developments, optimizing digital 
-                  marketing strategies, or contributing to open-source projects that benefit the developer community.
-                </p>
-              </div>
-              
-              <div className="mt-6">
-                <h4 className="text-lg font-semibold mb-3">Core Technologies</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['React', 'Next.js', 'Node.js', 'Shopify', 'WooCommerce', 'MedusaJS', 'AI/ML', 'GSAP', 'Three.js', 'Adobe Suite', 'Canva', 'HuggingFace'].map((tech) => (
-                    <Badge key={tech} variant="secondary" className="hover:scale-105 transition-transform">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div className="skills-container fade-in-up">
-              <h3 className="text-2xl font-bold mb-6">Skills & Expertise</h3>
-              <div className="space-y-6">
-                {skills.map((skill, index) => (
-                  <div key={index}>
-                    <div className="flex justify-between mb-2">
-                      <span className="font-medium">{skill.name}</span>
-                      <span className="text-muted-foreground">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden skill-bar">
-                      <div
-                        className="h-full bg-gradient-to-r from-coral-accent to-dark-navy skill-bar-fill"
-                        data-level={skill.level}
-                        style={{ backgroundColor: 'var(--coral-accent)' }}
+              {/* Skills */}
+              <Card className="glass-effect">
+                <CardHeader>
+                  <CardTitle className="text-2xl heading-secondary">Core Skills</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {skills.map((skill) => (
+                    <div key={skill.name} className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium body-text-primary">{skill.name}</span>
+                        <span className="text-sm body-text-secondary">{skill.level}%</span>
+                      </div>
+                      <Progress 
+                        value={skill.level} 
+                        className="h-2"
                       />
                     </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Right Column - Stats & Tech */}
+            <div className={`space-y-6 transition-all duration-1000 delay-300 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              {/* Stats */}
+              <Card className="glass-effect">
+                <CardHeader>
+                  <CardTitle className="text-2xl heading-secondary">Key Achievements</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary-bright mb-2">150+</div>
+                      <div className="text-sm body-text-secondary">Campaigns Managed</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary-bright mb-2">$2M+</div>
+                      <div className="text-sm body-text-secondary">Revenue Generated</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary-bright mb-2">85%</div>
+                      <div className="text-sm body-text-secondary">Avg. Conversion Rate</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary-bright mb-2">50+</div>
+                      <div className="text-sm body-text-secondary">Happy Clients</div>
+                    </div>
                   </div>
-                ))}
-              </div>
+                </CardContent>
+              </Card>
+
+              {/* Technologies */}
+              <Card className="glass-effect">
+                <CardHeader>
+                  <CardTitle className="text-2xl heading-secondary">Technologies & Tools</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {technologies.map((tech) => (
+                      <Badge key={tech} variant="secondary" className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Experience */}
+              <Card className="glass-effect">
+                <CardHeader>
+                  <CardTitle className="text-2xl heading-secondary">Experience</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="border-l-4 border-primary pl-4">
+                    <h4 className="font-semibold body-text-primary">Senior Marketing Manager</h4>
+                    <p className="text-sm body-text-secondary">TechCorp Inc. • 2021-Present</p>
+                    <p className="text-sm body-text-secondary mt-1">
+                      Leading digital marketing initiatives and AI integration projects
+                    </p>
+                  </div>
+                  <div className="border-l-4 border-primary pl-4">
+                    <h4 className="font-semibold body-text-primary">E-Commerce Strategist</h4>
+                    <p className="text-sm body-text-secondary">Retail Solutions • 2019-2021</p>
+                    <p className="text-sm body-text-secondary mt-1">
+                      Optimized online stores and implemented conversion strategies
+                    </p>
+                  </div>
+                  <div className="border-l-4 border-primary pl-4">
+                    <h4 className="font-semibold body-text-primary">Digital Marketing Specialist</h4>
+                    <p className="text-sm body-text-secondary">Marketing Agency • 2017-2019</p>
+                    <p className="text-sm body-text-secondary mt-1">
+                      Managed social media campaigns and content marketing
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Decorative Lines */}
+      <div className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
+        <div className="w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent opacity-50" />
+      </div>
+      <div className="absolute right-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
+        <div className="w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent opacity-50" />
       </div>
     </section>
   );

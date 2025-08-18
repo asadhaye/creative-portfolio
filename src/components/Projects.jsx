@@ -1,239 +1,327 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { ExternalLink, Github, Play } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { Button } from './ui/button';
+import { ExternalLink, Github, Eye } from 'lucide-react';
 
 const Projects = () => {
-  const sectionRef = useRef(null);
-  const [filter, setFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [isVisible, setIsVisible] = useState(false);
+  const projectsRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (projectsRef.current) {
+      observer.observe(projectsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const projects = [
     {
       id: 1,
-      title: 'E-Commerce Platform with AI',
-      description: 'Full-stack e-commerce solution with AI-powered product recommendations and automated customer service.',
-      image: '/api/placeholder/400/250',
-      category: 'ecommerce',
-      technologies: ['Next.js', 'Node.js', 'Shopify API', 'OpenAI', 'Stripe'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
+      title: "AVPN Platform",
+      description: "A comprehensive VPN solution with military-grade encryption, global server network, and cross-platform compatibility.",
+      image: "/api/placeholder/600/400",
+      category: "web",
+      technologies: ["React", "Node.js", "Three.js", "MongoDB"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: true
     },
     {
       id: 2,
-      title: 'Digital Marketing Dashboard',
-      description: 'Comprehensive analytics dashboard for tracking multi-channel marketing campaigns and ROI.',
-      image: '/api/placeholder/400/250',
-      category: 'marketing',
-      technologies: ['React', 'D3.js', 'Node.js', 'Google Analytics API'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
+      title: "E-Commerce Analytics Dashboard",
+      description: "Real-time analytics platform for e-commerce businesses with AI-powered insights and predictive analytics.",
+      image: "/api/placeholder/600/400",
+      category: "web",
+      technologies: ["Next.js", "TypeScript", "D3.js", "PostgreSQL"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: true
     },
     {
       id: 3,
-      title: 'AI Content Generator',
-      description: 'AI-powered content creation tool for e-commerce product descriptions and marketing copy.',
-      image: '/api/placeholder/400/250',
-      category: 'ai',
-      technologies: ['React', 'HuggingFace', 'OpenAI API', 'Node.js'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
+      title: "AI Marketing Automation",
+      description: "Intelligent marketing automation platform using machine learning for personalized customer engagement.",
+      image: "/api/placeholder/600/400",
+      category: "ai",
+      technologies: ["Python", "TensorFlow", "React", "FastAPI"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false
     },
     {
       id: 4,
-      title: 'MedusaJS Store Builder',
-      description: 'Custom e-commerce store builder using MedusaJS with advanced customization options.',
-      image: '/api/placeholder/400/250',
-      category: 'ecommerce',
-      technologies: ['MedusaJS', 'React', 'PostgreSQL', 'Redis'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
+      title: "Portfolio Website",
+      description: "Modern portfolio website with Three.js animations and interactive elements.",
+      image: "/api/placeholder/600/400",
+      category: "web",
+      technologies: ["React", "Three.js", "Tailwind CSS", "Vite"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false
     },
     {
       id: 5,
-      title: 'Interactive Portfolio Site',
-      description: 'Award-winning portfolio website with Three.js animations and GSAP interactions.',
-      image: '/api/placeholder/400/250',
-      category: 'web',
-      technologies: ['Three.js', 'GSAP', 'React', 'WebGL'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
+      title: "Digital Marketing Suite",
+      description: "Comprehensive digital marketing tools including SEO, social media, and email marketing automation.",
+      image: "/api/placeholder/600/400",
+      category: "marketing",
+      technologies: ["Vue.js", "Laravel", "Redis", "AWS"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false
     },
     {
       id: 6,
-      title: 'WooCommerce Automation Suite',
-      description: 'Complete automation solution for WooCommerce stores with inventory and order management.',
-      image: '/api/placeholder/400/250',
-      category: 'ecommerce',
-      technologies: ['WordPress', 'WooCommerce', 'PHP', 'MySQL'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
-    },
+      title: "Blockchain Analytics",
+      description: "Real-time blockchain data analysis and visualization platform for cryptocurrency traders.",
+      image: "/api/placeholder/600/400",
+      category: "ai",
+      technologies: ["React", "Python", "Web3.js", "InfluxDB"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false
+    }
   ];
 
-  const categories = [
+  const filters = [
     { id: 'all', label: 'All Projects' },
-    { id: 'ecommerce', label: 'E-Commerce' },
-    { id: 'ai', label: 'AI Development' },
-    { id: 'marketing', label: 'Digital Marketing' },
     { id: 'web', label: 'Web Development' },
+    { id: 'ai', label: 'AI & Machine Learning' },
+    { id: 'marketing', label: 'Digital Marketing' }
   ];
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === filter);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate .proj-card elements
-      gsap.from(
-        '.proj-card',
-        {
-          y: 30,
-          opacity: 0,
-          stagger: 0.12,
-          duration: 0.7,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
-
-      // Animate section title
-      gsap.fromTo(
-        '.section-title',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-          }
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [filteredProjects]);
+  const filteredProjects = projects.filter(project => 
+    activeFilter === 'all' || project.category === activeFilter
+  );
 
   const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
-    
-    // Animate filter change
-    gsap.fromTo(
-      '.project-card',
-      { opacity: 0, scale: 0.8 },
-      { opacity: 1, scale: 1, duration: 0.4, stagger: 0.05 }
-    );
+    setActiveFilter(newFilter);
   };
 
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <section ref={sectionRef} id="projects" className="py-20">
+    <section id="projects" className="min-h-screen flex items-center justify-center relative overflow-hidden mt-16 section-modern">
+      {/* Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
+        <div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl floating-element"
+          style={{
+            left: `${50 + mousePosition.x * 20}%`,
+            top: `${50 + mousePosition.y * 20}%`,
+            transform: 'translate(-50%, -50%)',
+            transition: 'all 0.3s ease-out'
+          }}
+        />
+        <div 
+          className="absolute w-64 h-64 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl floating-element"
+          style={{
+            left: `${30 - mousePosition.x * 15}%`,
+            top: `${70 - mousePosition.y * 15}%`,
+            transform: 'translate(-50%, -50%)',
+            transition: 'all 0.3s ease-out',
+            animationDelay: '2s'
+          }}
+        />
+      </div>
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16 section-title">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Featured Projects</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A showcase of my latest work in full-stack development, e-commerce solutions, AI integration, and digital marketing.
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div 
+            ref={projectsRef}
+            className={`text-center mb-16 transition-all duration-1000 animate-fade-in-up ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+            }`}
+          >
+            <h2 className="text-5xl md:text-6xl font-black mb-6 heading-primary">
+              Featured Work
+            </h2>
+            <p className="text-xl body-text-secondary max-w-3xl mx-auto">
+              A collection of innovative projects that showcase my expertise in web development, 
+              AI integration, and digital marketing strategy.
             </p>
           </div>
 
           {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={filter === category.id ? 'default' : 'outline'}
-                onClick={() => handleFilterChange(category.id)}
-                className="transition-all duration-300 hover:scale-105"
+          <div className={`flex flex-wrap justify-center gap-4 mb-12 transition-all duration-1000 delay-200 animate-fade-in-up ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+          }`}>
+            {filters.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => handleFilterChange(filter.id)}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 hover-lift ${
+                  activeFilter === filter.id
+                    ? 'btn-primary shadow-glow'
+                    : 'btn-secondary'
+                }`}
               >
-                {category.label}
-              </Button>
+                {filter.label}
+              </button>
             ))}
           </div>
 
           {/* Projects Grid */}
-          <div className="projects-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <Card
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project, index) => (
+              <div
                 key={project.id}
-                className={`proj-card overflow-hidden hover:shadow-2xl transition-all duration-300 ${
-                  project.featured ? 'ring-2 ring-primary/20' : ''
+                className={`group transition-all duration-1000 delay-${Math.min(index * 100, 500)} animate-fade-in-up ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
                 }`}
               >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
-                  />
-                  {project.featured && (
-                    <Badge className="absolute top-4 left-4 bg-primary">
-                      Featured
-                    </Badge>
-                  )}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                    <Button size="sm" variant="secondary" asChild>
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <Play className="h-4 w-4 mr-2" />
-                        Demo
-                      </a>
-                    </Button>
-                    <Button size="sm" variant="secondary" asChild>
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-4 w-4 mr-2" />
-                        Code
-                      </a>
-                    </Button>
+                <Card className="card-modern group relative overflow-hidden hover-lift">
+                  {/* Project Image */}
+                  <div className="relative overflow-hidden aspect-video rounded-t-xl">
+                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
+                      <div className="text-4xl font-bold text-primary/50">
+                        {project.title.charAt(0)}
+                      </div>
+                    </div>
+                    
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+                      <Button
+                        asChild
+                        size="sm"
+                        className="btn-primary"
+                      >
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <Eye className="h-4 w-4 mr-2" />
+                          View Live
+                        </a>
+                      </Button>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="btn-secondary"
+                      >
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <Github className="h-4 w-4 mr-2" />
+                          Code
+                        </a>
+                      </Button>
+                    </div>
+
+                    {/* Featured Badge */}
+                    {project.featured && (
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-gradient-to-r from-primary to-purple-500 text-white border-0 shadow-glow">
+                          Featured
+                        </Badge>
+                      </div>
+                    )}
                   </div>
-                </div>
-                
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    {project.title}
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                  </CardTitle>
-                </CardHeader>
-                
-                <CardContent>
-                  <p className="text-muted-foreground mb-4">
-                    {project.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary" className="text-xs">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-xl font-bold heading-secondary group-hover:text-primary group-hover:hover-text-primary transition-all duration-300">
+                      {project.title}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="space-y-4">
+                    <p className="body-text-secondary text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant="secondary"
+                          className="text-xs bg-white/5 border border-white/10 text-muted-foreground hover:bg-primary/10 hover:border-primary/30 transition-colors duration-300"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    {/* Project Links */}
+                    <div className="flex space-x-3 pt-2">
+                      <Button
+                        asChild
+                        size="sm"
+                        className="flex-1 btn-primary"
+                      >
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Live Demo
+                        </a>
+                      </Button>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="flex-1 btn-secondary"
+                      >
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <Github className="h-4 w-4 mr-2" />
+                          Source
+                        </a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
 
-          {/* View More Button */}
-          <div className="text-center mt-12">
-            <Button size="lg" variant="outline" className="hover:scale-105 transition-transform">
-              View All Projects
-              <ExternalLink className="ml-2 h-4 w-4" />
-            </Button>
+          {/* Call to Action */}
+          <div className={`text-center mt-16 transition-all duration-1000 delay-700 animate-fade-in-up ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+          }`}>
+            <div className="max-w-2xl mx-auto">
+              <h3 className="text-2xl font-bold mb-4 heading-secondary">
+                Ready to start your next project?
+              </h3>
+              <p className="body-text-secondary mb-6">
+                Let's collaborate to bring your ideas to life with cutting-edge technology and innovative design.
+              </p>
+              <Button
+                asChild
+                size="lg"
+                className="btn-primary hover-lift px-8 py-4 text-lg font-semibold"
+              >
+                <a href="#contact">
+                  Let's Talk
+                  <ExternalLink className="ml-2 h-5 w-5" />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Decorative Lines */}
+      <div className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
+        <div className="w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent opacity-50" />
+      </div>
+      <div className="absolute right-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
+        <div className="w-px h-32 bg-gradient-to-b from-transparent via-primary to-transparent opacity-50" />
       </div>
     </section>
   );

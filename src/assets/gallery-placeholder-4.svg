@@ -1,0 +1,7 @@
+<svg width="600" height="500" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="500" rx="8" fill="#FF8C38" fill-opacity="0.1"/>
+  <rect x="1" y="1" width="598" height="498" rx="7" stroke="#FF8C38" stroke-opacity="0.2" stroke-width="2"/>
+  <rect x="100" y="100" width="400" height="200" rx="20" fill="#FF8C38" fill-opacity="0.4"/>
+  <path d="M300 350 L400 450 L200 450 Z" fill="#FF8C38" fill-opacity="0.6"/>
+  <text x="300" y="400" font-family="Arial" font-size="24" fill="#FF8C38" text-anchor="middle">Gallery Image 4</text>
+</svg>

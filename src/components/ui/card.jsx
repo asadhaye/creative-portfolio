@@ -1,21 +1,20 @@
-import * as React from "react"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
-
-function Card({
-  className,
-  ...props
-}) {
+// Use React.forwardRef for Card
+const Card = React.forwardRef(function Card({ className, ...props }, ref) {
   return (
     <div
+      ref={ref}
       data-slot="card"
       className={cn(
         "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
         className
       )}
-      {...props} />
+      {...props}
+    />
   );
-}
+});
 
 function CardHeader({
   className,
@@ -98,4 +97,4 @@ export {
   CardAction,
   CardDescription,
   CardContent,
-}
+};
