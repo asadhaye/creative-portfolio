@@ -11,12 +11,8 @@ const __dirname  = path.dirname(__filename)
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),tailwindcss(),visualizer({ open: true, gzipSize: true }),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+  plugins: [react(),tailwindcss(),visualizer({ open: true, gzipSize: true })],
+  resolve: { alias: { "@": path.resolve(__dirname, "./src")},
     build: {
       rollupOptions: {
         output: {
