@@ -160,9 +160,9 @@ const Hero = () => {
               <span className="inline-block subtitle-text text-primary">
                 <TypingAnimation 
                   texts={["Marketer", "E-Commerce Strategist", "AI Enthusiast", "Digital Innovator"]} 
-                  typingSpeed={80} 
-                  deletingSpeed={40} 
-                  delayBetweenTexts={1500} 
+                  typingSpeed={50} 
+                  deletingSpeed={30} 
+                  delayBetweenTexts={1000} 
                 />
               </span>
             </p>

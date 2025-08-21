@@ -42,6 +42,12 @@ const TypingAnimation = ({ texts, typingSpeed = 100, deletingSpeed = 50, delayBe
     return () => clearTimeout(timeout);
   }, [texts, currentTextIndex, displayText, isTyping, isPaused, typingSpeed, deletingSpeed, delayBetweenTexts]);
 
+  useEffect(() => {
+    console.log('TypingAnimation texts:', texts);
+    console.log('Current text index:', currentTextIndex);
+    console.log('Display text:', displayText);
+  }, [texts, currentTextIndex, displayText]);
+
   return (
     <span className="typing-animation">
       {displayText}

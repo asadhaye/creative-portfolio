@@ -9,22 +9,21 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname  = path.dirname(__filename)
 
-
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [netlify(),react(),tailwindcss(),visualizer({ open: true, gzipSize: true })],
-  resolve: { alias: { "@": path.resolve(__dirname, "./src")},
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom'],
-            three: ['three'],
-            framer: ['framer-motion'],
-          },
+  plugins: [netlify(), react(), tailwindcss(), visualizer({ open: true, gzipSize: true })],
+  resolve: { 
+    alias: { "@": path.resolve(__dirname, "./src") }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          three: ['three'],
+          framer: ['framer-motion'],
         },
       },
     },
-    chunkSizeWarningLimit: 1000, // optional
+    chunkSizeWarningLimit: 1000,
   },
 })
