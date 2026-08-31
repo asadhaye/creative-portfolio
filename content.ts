@@ -1,9 +1,9 @@
 export const timeline = [
-  { period: "2005–2007", title: "Community", text: "Worked with Insan Foundation as Coordinator for the Dove Day Peace Club, and remained connected with local NGOs including GODH Foundation and Iraj Education & Development Foundation." },
+  { period: "Early years", title: "Community", text: "Worked with Insan Foundation as Coordinator for the Dove Day Peace Club, and remained connected with local NGOs including GODH Foundation and Iraj Education & Development Foundation." },
   { period: "2008", title: "Sales & international markets", text: "Entered call-centre operations working across USA, UK and Canada campaigns." },
   { period: "2008–2009", title: "Operations & technology", text: "Joined eDrive Technologies as a Control Room Officer and progressed to Shift In-Charge within about a year." },
   { period: "2009", title: "Executive coordination", text: "Joined Tracking World as Coordinator to the CEO." },
-  { period: "2009–2010", title: "Research", text: "Worked on a JICA-supported mass survey concerning mass transit in Lahore District." },
+  { period: "2009–2010", title: "Research", text: "Worked on a JICA-linked mass survey concerning mass transit in Lahore District." },
   { period: "2010–2011", title: "UAE · entrepreneurship", text: "Ventured into a food cafeteria and worked with Hospitality Marketing Concepts selling HORECA memberships for five-star hotel chains; progressed from part-time work to Team Lead." },
   { period: "2011", title: "Marketing education", text: "Returned to Pakistan and pursued a Master's in Marketing at the Institute of Administrative Sciences, University of the Punjab." },
   { period: "~2011–2015", title: "Teaching", text: "Invited to train IELTS Reading and Writing students, then taught business subjects to B.Tech students as a visiting lecturer for almost four years." },
@@ -23,12 +23,12 @@ export const capabilities = [
 ];
 
 export const work = [
-  { title: "Saleem Fabrics", type: "E-commerce · Digital Commerce", description: "A decade-long chapter in building and growing digital commerce for a major fashion retail business.", number: "01" },
-  { title: "Tradition Stores", type: "E-commerce · Digital Commerce", description: "Digital commerce work within the wider retail and fashion ecosystem.", number: "02" },
-  { title: "Roop Singhar", type: "Retail Technology · E-commerce", description: "Digital presence plus POS and inventory automation for a retail business.", number: "03" },
-  { title: "Ghani Cloth House", type: "Fashion · E-commerce", description: "E-commerce and digital presence for a fashion retail business.", number: "04" },
-  { title: "Heer Pret", type: "Fashion · E-commerce", description: "Digital commerce work for a fashion brand.", number: "05" },
-  { title: "The Dressmaker Studio", type: "Fashion · Digital Commerce", description: "Digital presence and commerce experience for a Lahore-based clothing workshop.", number: "06" },
+  { slug: "saleem-fabrics", title: "Saleem Fabrics", name: "Saleem Fabrics", type: "E-commerce · Digital Commerce", category: "E-commerce", description: "A decade-long chapter in building and growing digital commerce for a major fashion retail business.", number: "01", tags: ["E-commerce", "Fashion", "Digital Commerce"] },
+  { slug: "tradition-stores", title: "Tradition Stores", name: "Tradition Stores", type: "E-commerce · Digital Commerce", category: "E-commerce", description: "Digital commerce work within the wider retail and fashion ecosystem.", number: "02", tags: ["E-commerce", "Retail"] },
+  { slug: "roop-singhar", title: "Roop Singhar", name: "Roop Singhar", type: "Retail Technology · E-commerce", category: "Retail Technology", description: "Digital presence plus POS and inventory automation for a retail business.", number: "03", tags: ["Retail", "POS", "Inventory"] },
+  { slug: "ghani-cloth-house", title: "Ghani Cloth House", name: "Ghani Cloth House", type: "Fashion · E-commerce", category: "Fashion", description: "E-commerce and digital presence for a fashion retail business.", number: "04", tags: ["Fashion", "E-commerce"] },
+  { slug: "heer-pret", title: "Heer Pret", name: "Heer Pret", type: "Fashion · E-commerce", category: "Fashion", description: "Digital commerce work for a fashion brand.", number: "05", tags: ["Fashion", "E-commerce"] },
+  { slug: "the-dressmaker-studio", title: "The Dressmaker Studio", name: "The Dressmaker Studio", type: "Fashion · Digital Commerce", category: "Fashion", description: "Digital presence and commerce experience for a Lahore-based clothing workshop.", number: "06", tags: ["Fashion", "Digital Commerce"] },
 ];
 
 export const principles = [
