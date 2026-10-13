@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname  = path.dirname(__filename)
 
 export default defineConfig({
-  plugins: [netlify(), react(), tailwindcss(), visualizer({ open: true, gzipSize: true })],
+  plugins: [netlify(), react(), tailwindcss(), visualizer({ open: false, gzipSize: true })],
   resolve: { 
     alias: { "@": path.resolve(__dirname, "./src") }
   },
