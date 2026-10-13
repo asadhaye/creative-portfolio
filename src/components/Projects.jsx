@@ -191,7 +191,11 @@ const Projects = () => {
                       {project.category === 'ai' && <Cpu className="w-3 h-3 mr-1" />}
                       {project.category === 'web' && <Globe className="w-3 h-3 mr-1" />}
                       {project.category === 'marketing' && <Rocket className="w-3 h-3 mr-1" />}
-                      {filter.label.replace('All Projects', project.category.toUpperCase())}
+                      {{
+                        ai: 'AI & Machine Learning',
+                        web: 'Web Development',
+                        marketing: 'Digital Marketing',
+                      }[project.category] || project.category}
                     </Badge>
                     {project.featured && <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100 border-none">Featured</Badge>}
                   </div>
